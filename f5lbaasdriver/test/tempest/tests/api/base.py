@@ -77,7 +77,7 @@ class BaseTestCase(base.BaseNetworkTest):
         mgr = cls.get_client_manager()
         auth_provider = mgr.auth_provider
         client_args = _setup_client_args(auth_provider)
-
+        cls.bigip_client.cleanup_device()
         cls.bigip_client = bigip_client.BigIpClient()
         cls.load_balancers_client = (
             load_balancers_client.LoadBalancersClientJSON(*client_args))

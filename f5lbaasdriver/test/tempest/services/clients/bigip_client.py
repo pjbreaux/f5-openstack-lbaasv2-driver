@@ -14,6 +14,10 @@ u"""F5 Networks® LBaaSv2 L7 rules client for tempest tests."""
 #   See the License for the specific language governing permissions and
 #   limitations under the License.
 
+from f5.utils.testutils.registrytools import AGENT_LB_DEL_ORDER
+from f5.utils.testutils.registrytools import order_by_weights
+from f5.utils.testutils.registrytools import register_device
+from icontrol.exceptions import iControlUnexpectedHTTPError
 from tempest import config
 
 from f5.bigip import ManagementRoot
@@ -26,6 +30,23 @@ class BigIpClient(object):
         self.bigip = ManagementRoot(config.f5_lbaasv2_driver.icontrol_hostname,
                                     config.f5_lbaasv2_driver.icontrol_username,
                                     config.f5_lbaasv2_driver.icontrol_password)
+
+    def cleanup_device(self):
+        registry = register_device(self.bigip)
+        ordered = order_by_weights(registry, AGENT_LB_DEL_ORDER)
+        for selfLink in ordered:
+            try:
+                if selfLink in registry:
+                    registry[selfLink].delete()
+            except iControlUnexpectedHTTPError as exc:
+                if 'fdb/tunnel' in selfLink:
+                    for t in self.bigip.tm.net.fdb.tunnels.get_collection():
+                        if t.name != 'http-tunnel' \
+                                and t.name != 'socks-tunnel':
+                            t.update(records=[])
+                    registry[selfLink].delete()
+                else:
+                    raise exc
 
     def folder_exists(self, folder):
         return self.bigip.tm.sys.folders.folder.exists(name=folder)
