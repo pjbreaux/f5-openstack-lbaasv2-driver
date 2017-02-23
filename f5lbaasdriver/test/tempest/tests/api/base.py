@@ -73,12 +73,12 @@ class BaseTestCase(base.BaseNetworkTest):
     def resource_setup(cls):
         """Setup the clients and fixtures for test suite."""
         super(BaseTestCase, cls).resource_setup()
-
+        cls.tenant = cls.subnet['tenant_id']
         mgr = cls.get_client_manager()
         auth_provider = mgr.auth_provider
         client_args = _setup_client_args(auth_provider)
-        cls.bigip_client.cleanup_device()
         cls.bigip_client = bigip_client.BigIpClient()
+        cls.bigip_client.cleanup_device('Project_' + cls.tenant)
         cls.load_balancers_client = (
             load_balancers_client.LoadBalancersClientJSON(*client_args))
         cls.listeners_client = (
