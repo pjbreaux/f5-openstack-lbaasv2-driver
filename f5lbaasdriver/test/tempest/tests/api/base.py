@@ -25,12 +25,12 @@ from f5lbaasdriver.test.tempest.services.clients import \
 from f5lbaasdriver.test.tempest.services.clients import \
     l7rule_client
 from f5lbaasdriver.test.tempest.services.clients import \
+    load_balancers_client
+from f5lbaasdriver.test.tempest.services.clients import \
     plugin_rpc_client
 from neutron_lbaas.tests.tempest.v2.clients import \
     health_monitors_client
 from neutron_lbaas.tests.tempest.v2.clients import listeners_client
-from neutron_lbaas.tests.tempest.v2.clients import \
-    load_balancers_client
 from neutron_lbaas.tests.tempest.v2.clients import members_client
 from neutron_lbaas.tests.tempest.v2.clients import pools_client
 
