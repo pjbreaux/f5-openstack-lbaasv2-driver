@@ -35,7 +35,7 @@ pip install ${TEMPEST_DIR}
 rm -rf ${DEVTEST_DIR}
 git clone -b ${TEST_OPENSTACK_DISTRO} ${DEVTEST_REPO} ${DEVTEST_DIR}
 
-pip install git+ssh://git@bldr-git.int.lineratesystems.com/tools/pytest-autolog.git
+pip install git+https://gitlab.pdbld.f5net.com/tools/pytest-autolog.git
 # This should be listed in requirement.test.txt also, but will not succeed
 # from that location without sudo
 sudo pip install git+https://github.com/F5Networks/f5-openstack-agent.git@${BRANCH}
