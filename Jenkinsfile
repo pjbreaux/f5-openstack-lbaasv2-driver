@@ -26,7 +26,7 @@ pipeline {
                     make -C systest $target_name
 
                     # - record results
-                    systest/scripts/record_results.sh
+                    #systest/scripts/record_results.sh
                 '''
             }
         }
