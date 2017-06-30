@@ -19,7 +19,7 @@ pipeline {
 
                     # - setup ssh agent
                     eval $(ssh-agent -s)
-                    ssh-add -K /home/jenkins/.ssh/id_rs_testlab
+                    ssh-add
 
                     # - run systests
                     target_name=tempest_$(echo $JOB_BASE_NAME | sed s/-/_/g)
