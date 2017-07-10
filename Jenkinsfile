@@ -26,7 +26,7 @@ pipeline {
                     make -C systest $target_name
 
                     # - record results
-                    # In smoke build, we need to skip this
+                    # In smoke build, we need to skip this, bump
                     #systest/scripts/record_results.sh
                 '''
             }
