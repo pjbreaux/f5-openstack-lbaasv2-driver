@@ -374,7 +374,7 @@ run_tests:
 	$(MAKE) -C . microservice_setup_tlc_session
 	$(MAKE) -C . configure_test_infra
 	$(MAKE) -C . run_neutron_lbaas
-	$(MAKE) -C . cleanup_tlc_session
+	#$(MAKE) -C . cleanup_tlc_session
 
 run_smoke:
 	$(MAKE) -C . microservice_setup_tlc_session

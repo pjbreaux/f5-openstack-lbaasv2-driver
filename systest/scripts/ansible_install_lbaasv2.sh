@@ -2,11 +2,9 @@
 
 set -ex
 
-OS_CONTROLLER_IP=`/tools/bin/tlc --sid ${TEST_SESSION} symbols \
-            | grep openstack_controller1ip_data_direct \
-                    | awk '{print $3}' | xargs`
-SSH_CMD="ssh -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no testlab@${OS_CONTROLLER_IP}"
-BIGIP_IP=`${SSH_CMD} "cat /home/testlab/ve_mgmt_ip"`
+OS_CONTROLLER_IP=10.190.24.130
+SSH_CMD="ssh -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@${OS_CONTROLLER_IP}"
+BIGIP_IP=10.190.24.67
 BIGIP_IP=${BIGIP_IP%%[[:cntrl:]]}
 AGENT_LOC=git+https://github.com/F5Networks/f5-openstack-agent.git@${BRANCH}
 DRIVER_LOC=${DRIVER_PIP_INSTALL_LOCATION}
@@ -33,13 +31,8 @@ if [[ -n ${HA_TYPE} ]]; then
     EXTRA_VARS="${EXTRA_VARS} f5_ha_type=${HA_TYPE}"
 fi
 
-EXTRA_VARS="${EXTRA_VARS} neutron_lbaas_init_location=${NEUTRON_INIT_LOC} restart_all_neutron_services=true remote_user=testlab"
+EXTRA_VARS="${EXTRA_VARS} neutron_lbaas_init_location=${NEUTRON_INIT_LOC} restart_all_neutron_services=true remote_user=ubuntu"
 EXTRA_VARS="${EXTRA_VARS} f5_global_routed_mode=${GLOBAL_ROUTED_MODE} bigip_netloc=${BIGIP_IP} agent_service_name=f5-openstack-agent.service"
-EXTRA_VARS="${EXTRA_VARS} use_barbican_cert_manager=True neutron_lbaas_shim_install_dest=/usr/lib/python2.7/site-packages/neutron_lbaas/drivers/f5"
+EXTRA_VARS="${EXTRA_VARS} use_barbican_cert_manager=True neutron_lbaas_shim_install_dest=/usr/lib/python2.7/dist-packages/neutron_lbaas/drivers/f5"
 
-sudo -E docker pull docker-registry.pdbld.f5net.com/openstack-test-ansibleserver-prod/mitaka
-sudo -E docker run \
---volumes-from `hostname | xargs` \
-docker-registry.pdbld.f5net.com/openstack-test-ansibleserver-prod/mitaka:latest \
-/f5-openstack-ansible/playbooks/agent_driver_deploy.yaml \
---extra-vars "${EXTRA_VARS}"
+# ansible-playbook -i /home/jenkins/container_mailbox/ansible_conf.ini /home/jenkins/f5-openstack-ansible/playbooks/agent_driver_deploy.yaml --extra-vars "${EXTRA_VARS}"

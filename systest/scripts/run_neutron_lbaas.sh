@@ -21,8 +21,8 @@ OS_CONTROLLER_IP=`/tools/bin/tlc --sid ${TEST_SESSION} symbols \
 | grep openstack_controller1ip_data_direct \
 | awk '{print $3}' | xargs`
 
-SSH_CMD="ssh -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no testlab@${OS_CONTROLLER_IP}"
-SCP_PREFIX="scp -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no testlab@${OS_CONTROLLER_IP}:"
+SSH_CMD="ssh -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@${OS_CONTROLLER_IP}"
+SCP_PREFIX="scp -i /home/jenkins/.ssh/id_rsa -o StrictHostKeyChecking=no ubuntu@${OS_CONTROLLER_IP}:"
 # Create .pytest.rootdir files at the root of the driver and neutron-lbaas
 # respositories to make the results suite names be rooted at the top-level
 # of the respective test repository
